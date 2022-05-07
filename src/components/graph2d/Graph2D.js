@@ -8,7 +8,7 @@ class Graph2D extends React.Component{
                 <h1>GRAPH 2D</h1>
                 {/*<UI2D></UI2D>
                 <Canvases></Canvases>*/}
-                <Button title='addFunc'></Button>
+                <Button title='add Function' name='addFunc'></Button>
             </div>
         );
     }

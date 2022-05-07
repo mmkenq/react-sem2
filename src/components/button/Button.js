@@ -2,21 +2,17 @@ import React from "react";
 import './button.css'
 
 
-class Button extends React.Component{
+function Button(props){
+   const {title, name, onClick} = props;
     
-    constructor(props) {
-        super(props);
-        const {title} = props;
-        this.title = title;
-    };
-
-    render(){
-        return(
-            <div className="field"
-                onClick={()=>console.log(this)}
-            > {this.title}</div>
-        );
-    }
+    return(
+        <div
+            className="field"
+            onClick={onClick}
+        >
+            {title}
+        </div>
+    );
 }
 
 export default Button
