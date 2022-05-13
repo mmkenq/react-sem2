@@ -7,7 +7,8 @@ function Button(props){
     
     return(
         <div
-            className="field"
+            className="headerBut"
+            name={name}
             onClick={onClick}
         >
             {title}
