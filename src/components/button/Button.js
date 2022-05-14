@@ -1,18 +1,13 @@
-import React from "react";
 import './button.css'
 
+function Button(props) {
+    const { page, title, onClick, active } = props;
 
-function Button(props){
-   const {title, name, onClick} = props;
-    
-    return(
+    return (
         <div
-            className="headerBut"
-            name={name}
-            onClick={onClick}
-        >
-            {title}
-        </div>
+            className={`headerBut ${active ? 'active' : ''}`}
+            onClick={() => onClick(page)}
+        >{title}</div>
     );
 }
 

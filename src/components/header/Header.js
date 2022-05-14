@@ -1,39 +1,42 @@
-import React from "react";
+import { useState } from 'react';
+
 import Button from "../button/Button";
-import Graph2D from "../graph2d/Graph2D";
 
 import './header.css';
 
+function Header(props) {
+    const { activeButton, setActiveButton } = props;
 
-function setActiveButton(name){
-    this.setState({activeButton: name})
-}
+    const [active, setActive] = useState(activeButton);
 
-function Header(props){
-    // function setActiveButton(ev){
-    //     console.log(ev.target)
-    // }
+    const setActiveButtonClick = (page) => {
+        setActiveButton(page);
+        setActive(page);
+    };
 
-
-    const {activeButton, setActiveButton} = props;
-    this.state = {activeButton};
-    this.setAttributeButton = setActiveButton;
-
-    
-
-    return(
+    return (
         <div id="header">
-            <h1>FUCK REACT STUFF</h1>
+            <h1>REACT</h1>
             <Button
-                title = 'graph2dДА'
-                name='graph2d'
-                // onClick={(ev)=>setActiveButton(ev.target)}>
-                onClick={(ev)=>setActiveButton("graph2d")}>
-            </Button>
-            <Button title = 'graph3dДА' name='graph3d'></Button>
-            <Button title = 'calculatorsДА' name='calculators'></Button>
+                page='graph2d'
+                title='graph2dДА'
+                active={active === 'graph2d'}
+                onClick={(page) => setActiveButtonClick(page)}
+            ></Button>
+            <Button
+                page='graph3d'
+                title='graph3dДА'
+                active={active === 'graph3d'}
+                onClick={(page) => setActiveButtonClick(page)}
+            ></Button>
+            <Button
+                page='calculator'
+                title='calculatorsДА'
+                active={active === 'calculator'}
+                onClick={(page) => setActiveButtonClick(page)}
+            ></Button>
         </div>
     );
 }
 
-export default Header
+export default Header;
