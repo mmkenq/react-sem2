@@ -6,7 +6,6 @@ import './header.css';
 
 function Header(props) {
     const { activeButton, setActiveButton } = props;
-
     const [active, setActive] = useState(activeButton);
 
     const setActiveButtonClick = (page) => {
