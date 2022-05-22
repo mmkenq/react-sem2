@@ -29,7 +29,6 @@ function App() {
 				        	width: 20,
 				        	height: 20,
     					}}
-    					userFuncs = {[]}
     					stdFuncs = {[
 					        {
 					            f: function(x){return Math.sin(x)},
@@ -37,7 +36,6 @@ function App() {
 					            isActive: false,
 					            color: '#0dd7ff',
 					            width: null,
-					            // TODO
 					            zeroes: { have: false, a: null, b: null },
 					        },
 					        {
@@ -46,6 +44,7 @@ function App() {
 					            isActive: false,
 					            color: '#ff9100',
 					            width: null,
+					            zeroes: { have: false, a: null, b: null },
 					        },
 					        {
 					            f: function(x){return Math.abs(x)},

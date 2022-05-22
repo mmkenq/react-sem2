@@ -1,23 +1,19 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
+import Canvas2DUI from './UI/Canvas2DUI'
 
 function Canvas2D(props){
 
-	const {win, width, height, stdFuncs, userFuncs, callbacks} = props;
-	let canvas = null;
-	let context = null;
+	const {num, win, width, height, stdFuncs, userFuncs, callbacks} = props;
+	let canvas = useRef(null);
+	let context = useRef(null);
+	let canMove = useRef(false);
 	let activeFuncs = 0;
-	let canMove = { can: false };
 
 	useEffect(()=>{
-		canvas = document.getElementById('canvas2d1');
-		context = canvas.getContext('2d');
-
-
-		canvas.addEventListener('wheel', (ev)=>callbacks.wheel(ev, render, context));
-        canvas.addEventListener('mousedown', ()=>callbacks.mouseD(canMove));
-        canvas.addEventListener('mouseup', ()=>callbacks.mouseU(canMove));
-        canvas.addEventListener('mousemove', (ev)=>callbacks.mouseM(ev, canMove, sx, sy, render, context));
+		canvas.current = document.getElementsByClassName('canvas2d')[num];
+		context.current = canvas.current.getContext('2d');
+		render(context.current);
 	})
 
 	function xs(x) { return (x-win.left) * (width) / win.width };
@@ -85,12 +81,12 @@ function Canvas2D(props){
 		// x
 		for (let i = Math.round(win.left); i < Math.round(win.left+win.width); i++){
 			line(i, -0.4, i, 0.4, '#fff', 1, context);
-			if(i!=0) printString(i+0.2, -0.7, i, '#bef4e1', undefined, context);
+			if(i!==0) printString(i+0.2, -0.7, i, '#bef4e1', undefined, context);
 		};
 		// y
 		for (let i = Math.round(-win.bottom-win.height); i < Math.round(-win.bottom); i++){
 			line(-0.4, i, 0.4, i, '#fff', 1, context);
-			if(i!=0) printString(0.8, i-0.2, i, '#bef4e1', undefined, context);
+			if(i!==0) printString(0.8, i-0.2, i, '#bef4e1', undefined, context);
 		};
 		// (0;0)
 		printString(0.2, -0.6, '0', '#5ed18a', undefined, context);
@@ -107,10 +103,17 @@ function Canvas2D(props){
 		line(0, -win.bottom, -0.5, -win.bottom-0.5, 'white', 2, context);
 	};
 
+	// TODO
+	function printZeroLine(context, x){
+
+	};
+
+    // ----- callbacks for UI
 	function render(context, isClear){
         clear(context);
         printCells(context);
         printOxy(context);
+
         if(isClear) {
             for(let i = 0; i < stdFuncs.length; i++){
                 stdFuncs[i].isActive = false;
@@ -133,21 +136,59 @@ function Canvas2D(props){
             	printString(win.left, -win.bottom-win.height+sy(activeFuncs*15), userFuncs[i].name, userFuncs[i].color, '15px sans-serif', context);
             };
 
-            // TODO ZEROES
             if(userFuncs[i].zeroes.have){
             	let x = callbacks.getZero(userFuncs[i].f, userFuncs[i].zeroes.a, userFuncs[i].zeroes.b);
-            	if(x === null) continue; 
-            	line(x, -win.bottom, x, -win.bottom-win.height, userFuncs[i].color, userFuncs[i].width, context);
-            };
+    			if(x === null) continue; 
+    			line(x, -win.bottom, x, -win.bottom-win.height, userFuncs[i].color, userFuncs[i].width, context);
+    		};
+        };
+    };
+
+    function wheel(ev){
+        if(ev.deltaY < 0){
+            if(win.width <= 5) return;
+            win.width -= 2;
+            win.height -= 2;
+            win.left++;
+            win.bottom++;
+        } else {
+            win.width += 2;
+            win.height += 2;
+            win.left--;
+            win.bottom--;
+        };
+        render(context.current);
+    };
+    function mouseD(){ canMove.current = true };
+    function mouseU(){ canMove.current = false };
+    function mouseM(ev){
+		if(canMove.current){
+            win.left -= sx(ev.movementX);
+            win.bottom -= sy(ev.movementY);
+            render(context.current);
         };
     };
 
 	return(
-		<canvas
-			id='canvas2d1'
-			width={width}
-			height={height}
-		></canvas>);
+		<div data-num = {num}>
+			<canvas 
+				className = 'canvas2d'
+				width = {width}
+				height = {height}
+				onWheel = {wheel}
+				onMouseDown = {mouseD}
+				onMouseUp = {mouseU}
+				onMouseMove = {mouseM}
+			></canvas>
+
+			<Canvas2DUI
+				num = {num}
+				stdFuncs = {stdFuncs}
+                userFuncs = {userFuncs}
+				callbacks = {{wheel: wheel, mouseD: mouseD, mouseU: mouseU, mouseM: mouseM, render: (doClear)=>render(context.current, doClear)}}
+    		></Canvas2DUI>
+		</div>
+	);
 }
 
 export default Canvas2D;
