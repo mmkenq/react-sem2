@@ -4,11 +4,14 @@ import Header from './components/header/Header'
 import Calculator from './components/calculator/Calculator'
 import Graph2D from './components/graph2d/Graph2D'
 import Graph3D from './components/graph3d/Graph3D'
+import Outliner from './components/outliner/Outliner'
+import Point from './components/graph3d/entities/Point'
+
 
 import './App.css';
 
 function App() {
-	const [activeButton, setActiveButton] = useState('graph2d');
+	const [activeButton, setActiveButton] = useState('graph3d');
 
 	return (
 		<div className="App">
@@ -17,8 +20,6 @@ function App() {
 				setActiveButton={setActiveButton}
 			></Header>
 			{
-			activeButton === 'calculator' ?
-				<Calculator></Calculator> :
 			activeButton === 'graph2d' ?
 				<Graph2D
 					    win = {{
@@ -70,7 +71,24 @@ function App() {
 					   ]}
 				></Graph2D> :
 			activeButton === 'graph3d' ?
-				<Graph3D></Graph3D> : ''}
+				<Graph3D
+				    win = {{
+				        // относительно начала координат
+				        left: -5,
+				        bottom: -5,
+				        // относительно всего canvas'a
+				        width: 10,
+				        height: 10,
+
+				        camera: new Point(0,0,60),
+				        display: new Point(0,0,30),
+				    }}
+				></Graph3D> :
+			activeButton === 'calculator' ?
+				<Calculator></Calculator> :
+			activeButton === 'outliner' ?
+				<Outliner></Outliner> : ''
+			}
 		</div>
 	);
 }

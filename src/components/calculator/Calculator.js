@@ -1,5 +1,4 @@
 import React from "react";
-import Button from "../button/Button";
 
 class Calculator extends React.Component{
     render(){
@@ -8,7 +7,7 @@ class Calculator extends React.Component{
                 <h1>CALCULATOR</h1>
                 {/*<UICalculator></UICalculator>
                 <Canvases></Canvases>*/}
-                <Button title='add Function' name='addFunc'></Button>
+                {/*{<Button title='add Function' name='addFunc'></Button>}*/}
             </div>
         );
     }

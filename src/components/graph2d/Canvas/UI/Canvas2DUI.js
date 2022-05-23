@@ -1,12 +1,12 @@
 import { useRef, useEffect } from 'react';
-
+import './button/button.css'
+import './input/input.css'
+import './canvas.css'
 
 function Canvas2DUI(props){
 	const {num, stdFuncs, userFuncs, callbacks} = props;
 	let ui = useRef(null);
 	let funcNum = 0;
-
-	console.log(stdFuncs)
 
 	function addFunction(fNum){
 		// default params
@@ -43,7 +43,7 @@ function Canvas2DUI(props){
 
 	useEffect(()=>{
 		ui.current = {
-			parent: document.getElementsByClassName('ui2d')[num],
+			// parent: document.getElementsByClassName('ui2d')[num],
 			buts: document.getElementsByClassName('buts2d')[num],
 			funcs: document.getElementsByClassName('funcs2d')[num],
 		};

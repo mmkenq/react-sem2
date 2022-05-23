@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Button from "../button/Button";
+import Button from "./button/Button";
 
 import './header.css';
 
@@ -15,23 +15,29 @@ function Header(props) {
 
     return (
         <div id="header">
-            <h1>REACT</h1>
+            <h1>💀</h1>
             <Button
                 page='graph2d'
-                title='graph2dДА'
+                title='Graph 2D'
                 active={active === 'graph2d'}
                 onClick={(page) => setActiveButtonClick(page)}
             ></Button>
             <Button
                 page='graph3d'
-                title='graph3dДА'
+                title='Graph 3D'
                 active={active === 'graph3d'}
                 onClick={(page) => setActiveButtonClick(page)}
             ></Button>
             <Button
                 page='calculator'
-                title='calculatorsДА'
+                title='Calculator'
                 active={active === 'calculator'}
+                onClick={(page) => setActiveButtonClick(page)}
+            ></Button>
+            <Button
+                page='outliner'
+                title='Outliner'
+                active={active === 'outliner'}
                 onClick={(page) => setActiveButtonClick(page)}
             ></Button>
         </div>

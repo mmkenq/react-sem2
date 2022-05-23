@@ -1,5 +1,6 @@
 import Canvas2D from "./Canvas/Canvas2D";
 // import _ from "lodash"
+import './graph2d.css'
 
 function Graph2D(props){
 	const {win, stdFuncs} = props;
@@ -20,6 +21,7 @@ function Graph2D(props){
     
     return(
     	<div id="graph2d">
+            <h1 style={{textAlign: 'left'}}>GRAPH 2D</h1>
     		<Canvas2D
                 num = {0}
     			win = {JSON.parse(JSON.stringify(win))}

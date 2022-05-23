@@ -1,0 +1,28 @@
+input{
+	height: 40px;
+	background-color: #292929;
+	border-radius: 3px;
+	color: white;
+	border: none;
+	margin: 3px;
+}
+
+.userInputs{
+	display: flex;
+	flex-flow: row wrap;	
+}
+
+
+.buts2d{
+	display: flex;
+	flex-flow: column;
+	float: left;
+}
+
+.funcs2d{
+	display: flex;
+	flex-flow: column;
+	overflow: auto;
+	height: 350px;
+}
+

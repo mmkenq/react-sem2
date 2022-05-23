@@ -103,12 +103,8 @@ function Canvas2D(props){
 		line(0, -win.bottom, -0.5, -win.bottom-0.5, 'white', 2, context);
 	};
 
-	// TODO
-	function printZeroLine(context, x){
-
-	};
-
-    // ----- callbacks for UI
+    
+    // render is used in UseEffect and UI
 	function render(context, isClear){
         clear(context);
         printCells(context);
@@ -136,6 +132,7 @@ function Canvas2D(props){
             	printString(win.left, -win.bottom-win.height+sy(activeFuncs*15), userFuncs[i].name, userFuncs[i].color, '15px sans-serif', context);
             };
 
+            // TODO
             if(userFuncs[i].zeroes.have){
             	let x = callbacks.getZero(userFuncs[i].f, userFuncs[i].zeroes.a, userFuncs[i].zeroes.b);
     			if(x === null) continue; 
@@ -144,6 +141,16 @@ function Canvas2D(props){
         };
     };
 
+    // ----- callbacks for UI
+    function mouseD(){ canMove.current = true };
+    function mouseU(){ canMove.current = false };
+    function mouseM(ev){
+		if(canMove.current){
+            win.left -= sx(ev.movementX);
+            win.bottom -= sy(ev.movementY);
+            render(context.current);
+        };
+    };
     function wheel(ev){
         if(ev.deltaY < 0){
             if(win.width <= 5) return;
@@ -159,18 +166,9 @@ function Canvas2D(props){
         };
         render(context.current);
     };
-    function mouseD(){ canMove.current = true };
-    function mouseU(){ canMove.current = false };
-    function mouseM(ev){
-		if(canMove.current){
-            win.left -= sx(ev.movementX);
-            win.bottom -= sy(ev.movementY);
-            render(context.current);
-        };
-    };
 
 	return(
-		<div data-num = {num}>
+		<div data-num = {num} style={{marginBottom: '15px'}}>
 			<canvas 
 				className = 'canvas2d'
 				width = {width}
@@ -185,7 +183,7 @@ function Canvas2D(props){
 				num = {num}
 				stdFuncs = {stdFuncs}
                 userFuncs = {userFuncs}
-				callbacks = {{wheel: wheel, mouseD: mouseD, mouseU: mouseU, mouseM: mouseM, render: (doClear)=>render(context.current, doClear)}}
+				callbacks = {{render: (doClear)=>render(context.current, doClear)}}
     		></Canvas2DUI>
 		</div>
 	);
