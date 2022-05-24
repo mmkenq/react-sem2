@@ -5,6 +5,10 @@ import Sphere from '../../entities/figures/Sphere'
 import Pyramid from '../../entities/figures/Pyramid'
 import Cone from '../../entities/figures/Cone'
 import DoublePlanes from '../../entities/figures/DoublePlanes'
+import CrossedPlanes from '../../entities/figures/CrossedPlanes'
+import Ellipsoid from '../../entities/figures/Ellipsoid'
+import Sphere2 from '../../entities/figures/Sphere2'
+import oneLineHyperBoloid from '../../entities/figures/oneLineHyperBoloid'
 
 function Canvas3DUI(props){
 	const {num, userFigs, callbacks} = props;
@@ -13,29 +17,38 @@ function Canvas3DUI(props){
 	const objects = [
 		'cube',
 		'cylinder',
-		'sphere',
 		'pyramid',
 		'cone',
 		'doublePlanes',
+		'crossedPlanes',
+		'ellipsoid',
+		'sphere',
+		'sphere2',
+		'oneLineHyperBoloid',
 	];
 	
 	function newFigure(figName){
 		switch(figName){
-			case 'cube': return new Cube;
-			case 'cylinder': return new Cylinder;
-			case 'sphere': return new Sphere;
-			case 'pyramid': return new Pyramid;
-			case 'cone': return new Cone;
-			case 'doublePlanes': return new DoublePlanes;
+			case 'cube': return new Cube();
+			case 'cylinder': return new Cylinder();
+			case 'sphere': return new Sphere();
+			case 'pyramid': return new Pyramid();
+			case 'cone': return new Cone();
+			case 'doublePlanes': return new DoublePlanes();
+			case 'crossedPlanes': return new CrossedPlanes();
+			case 'ellipsoid': return new Ellipsoid();
+			case 'sphere2': return new Sphere2();
+			case 'oneLineHyperBoloid': return new oneLineHyperBoloid();
+			default: return null;
 		}
 	}
 
 	function addFigure(){
 		userFigs.push({
             isActive: true,
-            subject: new Cube,
+            subject: new oneLineHyperBoloid(),
             // center: new Point(0,0,0),
-            color: 'pink',
+            color: '#c04d59',
             width: 2,
             showPoints: true,
             showEdges: true,
@@ -66,7 +79,7 @@ function Canvas3DUI(props){
 	}
 
 	// TODO:
-	function delFigure(){}
+	// function delFigure(){}
 
 	useEffect(()=>{
 		ui.current = {
@@ -135,7 +148,7 @@ function Canvas3DUI(props){
 			objects.forEach((el)=>{
 				let option = document.createElement('option');
 				option.innerHTML = el;
-				if(el == 'sphere') option.innerHTML = 'СФЕРА ХУЛИ'; // xd
+				if(el === 'sphere') option.innerHTML = 'СФЕРА ХУЛИ'; // xd
  				option.value = el;
 				option.addEventListener('click',()=>
 					{

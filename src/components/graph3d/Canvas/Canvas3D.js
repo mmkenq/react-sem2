@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-
+import Point from '../entities/Point'
 import Canvas3DUI from './UI/Canvas3DUI'
 
 function Canvas3D(props){
@@ -23,8 +23,8 @@ function Canvas3D(props){
 	function xs2dToCanvas(x) { return (x-win.left) * (width) / win.width };
 	function ys2dToCanvas(y) { return (-y - win.bottom) * (height) / win.height };
 
-	function sx2dToCanvas(x) { return x * win.width / width};
-	function sy2dToCanvas(y) { return y * win.height / height};
+	// function sx2dToCanvas(x) { return x * win.width / width};
+	// function sy2dToCanvas(y) { return y * win.height / height};
 
 	function clear(context){
 		context.fillStyle = '#292929';
@@ -41,7 +41,30 @@ function Canvas3D(props){
 	}
 
 	// TODO
-	// function printOxyz(context){};
+	function printOxyz(context){
+		// +x
+		line(new Point(0,0,0),
+				  new Point(1.9*(win.left+win.width),0,0),
+				  context, 'green', 3);
+		// -x
+		line(new Point(0,0,0),
+				  new Point(1.9*win.left,0,0),
+				  context, 'green', 3);
+
+		// +y
+		line(new Point(0,0,0),
+				  new Point(0,1.9*(-win.bottom),0),
+				  context, 'blue', 3);
+
+		// -y
+		line(new Point(0,0,0),
+				  new Point(0,1.9*(-win.bottom-win.height),0),
+				  context, 'blue', 3);
+
+		// #TODO
+		// +z
+		// line(new Point(0,0,0), new Point(0,0,10), context, 'yellow', 3);
+	}
 
 	function printPoints(fig, context){
 		let pointSize = 3;
@@ -76,7 +99,7 @@ function Canvas3D(props){
 	function render(context){
 		clear(context);
 		// TODO
-		// printOxyz(context);
+		printOxyz(context);
 
 		userFigs.forEach((el)=>{
 			if(el.isActive){
