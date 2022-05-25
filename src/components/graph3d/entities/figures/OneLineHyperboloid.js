@@ -3,7 +3,7 @@ import Edge from '../Edge'
 import Polygon from '../Polygon'
 
 
-export default class oneLineHyperBoloid{
+export default class OneLineHyperBoloid{
 	constructor(center = new Point(0,0,0)){
 		this.points = [];
 	    this.edges = [];
@@ -18,7 +18,7 @@ export default class oneLineHyperBoloid{
 
 		let x = 0;
 		let y = 0;
-		let z = 0;
+		// let z = 0;
 
 		let r = R; // changing radius
 		for(let znext = -R; znext <= R; znext++){
@@ -59,10 +59,13 @@ export default class oneLineHyperBoloid{
 		this.polygons.push(new Polygon(this.points.length/2-360/delta/2+360/delta-1, 360/delta-1, this.points.length/2-360/delta/2));
 
 
-		// ближние polygons
-		// for(let i = 1; i<360/delta; i++){
-		// 	this.polygons.push(new Polygon(this.points.length-i, this.points.length-i-1, this.points.length/2))
-		// }
-		// this.polygons.push(new Polygon(this.points.length-1, this.points.length-360/delta, this.points.length/2));
+	    // ближние polygons
+	    for(let i = 1; i<360/delta; i++){
+	    	this.polygons.push(new Polygon(this.points.length-i, this.points.length-i-1, this.points.length/2-i+5));
+	        this.polygons.push(new Polygon(this.points.length-i, this.points.length/2-i+6, this.points.length/2-i+5));
+	    }
+	    this.polygons.push(new Polygon(this.points.length-1, this.points.length-360/delta, this.points.length/2+5));
+	    this.polygons.push(new Polygon(this.points.length/2+5, this.points.length-360/delta, this.points.length/2-360/delta+6));
+
 	}
 }

@@ -6,27 +6,47 @@ import Pyramid from '../../entities/figures/Pyramid'
 import Cone from '../../entities/figures/Cone'
 import DoublePlanes from '../../entities/figures/DoublePlanes'
 import CrossedPlanes from '../../entities/figures/CrossedPlanes'
-import Ellipsoid from '../../entities/figures/Ellipsoid'
 import Sphere2 from '../../entities/figures/Sphere2'
-import oneLineHyperBoloid from '../../entities/figures/oneLineHyperBoloid'
+import OneLineHyperboloid from '../../entities/figures/OneLineHyperboloid'
+import HyperbolicParaboloid from '../../entities/figures/HyperbolicParaboloid'
+import EllipticParaboloid from '../../entities/figures/EllipticParaboloid'
+import TwoLineEllipticParaboloid from '../../entities/figures/TwoLineEllipticParaboloid'
+import ParabolicCylinder from '../../entities/figures/ParabolicCylinder'
 
 function Canvas3DUI(props){
 	const {num, userFigs, callbacks} = props;
 	let ui = useRef(null);
 	let figNum = 0;
+
 	const objects = [
-		'cube',
-		'cylinder',
-		'pyramid',
-		'cone',
-		'doublePlanes',
-		'crossedPlanes',
-		'ellipsoid',
-		'sphere',
-		'sphere2',
-		'oneLineHyperBoloid',
+		{id:'cube', title: 'куб'},
+		{id: 'pyramid',title: 'пирамида'},
+		{id: 'cylinder', title: 'очко'},
+		{id: 'doublePlanes', title: 'стены'},
+		{id: 'crossedPlanes', title: 'стены друг в друге'},
+		{id: 'parabolicCylinder', title: 'кривая стена'},
+		{id: 'cone', title: 'конус'},
+		{id: 'sphere', title: 'СФЕРА ХУЛИ'},
+		{id: 'sphere2', title: 'сфера'},
+		{id: 'oneLineHyperboloid', title: 'однополосный гиперболоид'},
+		{id: 'hyperbolicParaboloid', title: 'чипса'},
+		{id: 'ellipticParaboloid', title: 'шапка'},
+		{id: 'twoLineEllipticParaboloid', title: 'две шапки'},
 	];
-	
+
+	const scaleWays = [
+		'+', '-',
+		'x+', 'x-',
+		'y+', 'y-',
+		'z+', 'z-',
+	];
+
+	const showDetails = [
+		{id: 'showPoints', title: 'Points'},
+		{id: 'showEdges', title: 'Edges'},
+		{id: 'showPolygons', title: 'Polygons'}
+	];
+
 	function newFigure(figName){
 		switch(figName){
 			case 'cube': return new Cube();
@@ -36,9 +56,12 @@ function Canvas3DUI(props){
 			case 'cone': return new Cone();
 			case 'doublePlanes': return new DoublePlanes();
 			case 'crossedPlanes': return new CrossedPlanes();
-			case 'ellipsoid': return new Ellipsoid();
 			case 'sphere2': return new Sphere2();
-			case 'oneLineHyperBoloid': return new oneLineHyperBoloid();
+			case 'oneLineHyperboloid': return new OneLineHyperboloid();
+			case 'hyperbolicParaboloid': return new HyperbolicParaboloid();
+			case 'ellipticParaboloid': return new EllipticParaboloid();
+			case 'twoLineEllipticParaboloid': return new TwoLineEllipticParaboloid();
+			case 'parabolicCylinder': return new ParabolicCylinder();
 			default: return null;
 		}
 	}
@@ -46,7 +69,7 @@ function Canvas3DUI(props){
 	function addFigure(){
 		userFigs.push({
             isActive: true,
-            subject: new oneLineHyperBoloid(),
+            subject: new ParabolicCylinder(),
             // center: new Point(0,0,0),
             color: '#c04d59',
             width: 2,
@@ -80,6 +103,64 @@ function Canvas3DUI(props){
 
 	// TODO:
 	// function delFigure(){}
+
+	function scaleFigure(num, way){
+        let delta = 1.1;
+        switch(way){
+            case 'x+':
+                userFigs[num].subject.points.forEach(point => point.x *= delta);
+                break;
+            case 'x-':
+                userFigs[num].subject.points.forEach(point => point.x /= delta);
+                break;
+            case 'y+':
+                userFigs[num].subject.points.forEach(point => point.y *= delta);
+                break;
+            case 'y-':
+                userFigs[num].subject.points.forEach(point => point.y /= delta);
+                break;
+            case 'z+':
+                userFigs[num].subject.points.forEach(point => point.z *= delta);
+                break;
+            case 'z-':
+                userFigs[num].subject.points.forEach(point => point.z /= delta);
+                break;
+            case '+':
+                userFigs[num].subject.points.forEach(point => {
+                		point.x *= delta;
+                		point.y *= delta;
+                		point.z *= delta;
+                	}
+                );
+                break;
+            case '-':
+                userFigs[num].subject.points.forEach(point => {
+                		point.x /= delta;
+                		point.y /= delta;
+                		point.z /= delta;
+                	}
+                );
+                break;
+           	default: return;
+        }
+        callbacks.render();
+    };
+
+    function toggleDetail(num, detail){
+		switch(detail.id){
+            case 'showPoints':
+                userFigs[num].showPoints = !userFigs[num].showPoints;
+                break;
+            case 'showEdges':
+                userFigs[num].showEdges = !userFigs[num].showEdges;
+                break;
+            case 'showPolygons':
+                userFigs[num].showPolygons = !userFigs[num].showPolygons;
+                break;
+            default: return;
+        };
+        callbacks.render();
+    };
 
 	useEffect(()=>{
 		ui.current = {
@@ -144,20 +225,45 @@ function Canvas3DUI(props){
 			})
 			figInputs.appendChild(name);	
 
+			scaleWays.forEach(way => {
+				let scaleBut = document.createElement('button');
+				scaleBut.innerHTML = way;
+				scaleBut.addEventListener('click', ()=>{
+					scaleFigure(figInputs.dataset.num, way);
+				});
+				figInputs.appendChild(scaleBut);
+			});
+
+			showDetails.forEach(detail => {
+				let showDetail = document.createElement('input');
+				showDetail.setAttribute('id', detail.id);
+				showDetail.setAttribute('type', 'checkbox');
+				// TODO: be able to get the state of the detail in userFigs
+				showDetail.checked = true;
+				let label = document.createElement('label');
+				label.setAttribute('for', detail.id);
+				label.innerHTML = detail.title;
+
+				showDetail.addEventListener('change', ()=>{
+					toggleDetail(figInputs.dataset.num, detail);
+				});
+				figInputs.appendChild(showDetail);
+				figInputs.appendChild(label);
+			});
+
 			let changeFigBut = document.createElement('select');
 			objects.forEach((el)=>{
 				let option = document.createElement('option');
-				option.innerHTML = el;
-				if(el === 'sphere') option.innerHTML = 'СФЕРА ХУЛИ'; // xd
- 				option.value = el;
+				option.innerHTML = el.title;
+ 				option.value = el.id;
 				option.addEventListener('click',()=>
 					{
 						changeFigure(
 							figInputs.dataset.num,
-							newFigure(el),
+							newFigure(el.id),
 						 	color.value,
 						 	linewidth.value,
-							name.value||el);
+							name.value||el.id);
 					});
 
 				changeFigBut.appendChild(option);

@@ -40,30 +40,59 @@ function Canvas3D(props){
 		context.stroke();
 	}
 
+	function printString(p1, p2, str, color, font = 'bold 10px sans-serif', context){
+		context.font = font;
+		context.fillStyle = color || 'white';
+		context.fillText(str, xs2dToCanvas(xs3dTo2d(p1)), ys2dToCanvas(ys3dTo2d(p2)));
+	};
+
 	// TODO
 	function printOxyz(context){
 		// +x
 		line(new Point(0,0,0),
 				  new Point(1.9*(win.left+win.width),0,0),
-				  context, 'green', 3);
+				  context, '#667b94', 3);
 		// -x
 		line(new Point(0,0,0),
 				  new Point(1.9*win.left,0,0),
-				  context, 'green', 3);
+				  context, '#667b94', 3);
 
 		// +y
 		line(new Point(0,0,0),
 				  new Point(0,1.9*(-win.bottom),0),
-				  context, 'blue', 3);
+				  context, '#5b8265', 3);
 
 		// -y
 		line(new Point(0,0,0),
 				  new Point(0,1.9*(-win.bottom-win.height),0),
-				  context, 'blue', 3);
+				  context, '#5b8265', 3);
 
 		// #TODO
 		// +z
 		// line(new Point(0,0,0), new Point(0,0,10), context, 'yellow', 3);
+
+		printString(new Point(-win.left+win.width/2-1, 0, 0),
+					new Point(0, -1.5, 0),
+					'X', '#fff', undefined, context);
+		printString(new Point(1, 0, 0),
+					new Point(0, win.bottom+win.height+3, 0),
+				 	'Y', '#fff', undefined, context);
+
+		// arrows
+		// x
+		line(new Point(-win.left+win.width/2-0.5, 0, 0),
+			 new Point(-win.left+win.width/2-1, -0.5, 0),
+			 context, '#98b5d9', 2);
+		line(new Point(-win.left+win.width/2-0.5, 0, 0),
+			 new Point(-win.left+win.width/2-1, 0.5, 0),
+			 context, '#98b5d9', 2);
+		// y
+		line(new Point(0, win.bottom+win.height+4.5, 0),
+			 new Point(0.5, win.bottom+win.height+4, 0),
+			 context, '#9de3af', 2);
+		line(new Point(0, win.bottom+win.height+4.5, 0),
+			 new Point(-0.5, win.bottom+win.height+4, 0),
+			 context, '#9de3af', 2);
 	}
 
 	function printPoints(fig, context){
