@@ -15,47 +15,38 @@ export default class TwoLineEllipticParaboloid{
         let d = 1; // расстояние между горшками = d*2
 
 
-        let octant5 = [];
-        let octant6 = [];
-        let octant7 = [];
-        let octant8 = [];
+        let otherOctants = [];
 
         // points
-        for(let x=l; x>-l; x--){
-            for(let y=l; y>-l; y--){
+        for(let x=l; x>=-l; x--){
+            for(let y=l; y>=-l; y--){
                 let z = this.getZ(x,y,p,q);
                 this.points.push(new Point(x,y,z+d));
-
-                // octant5.push(new Point(x,y,-z-d));
-                // octant6.push(new Point(-x,y,-z-d));
-                // octant7.push(new Point(-x,-y,-z-d));
-                octant8.push(new Point(x,-y,-z-d));
+                otherOctants.push(new Point(x,y,-z-d));
             }
         }
 
-        // this.fillOctant(octant5);
-        // this.fillOctant(octant6);
-        // this.fillOctant(octant7);
-        this.fillOctant(octant8);
+        this.fillOctant(otherOctants);
 
         // edges
-        for(let k=0; k<2*(l*2); k++){
-            for(let i=k*(l*2); i<(k+1)*(l*2)-1; i++){
-                this.edges.push(new Edge(i, i+1));
+        for(let k=0; k<l*2*2+2; k++){
+            for(let i=k*(l*2)+k; i<(k+1)*(l*2)+k; i++){
+                this.edges.push(new Edge(i,i+1));
             }
         }
 
         // polygons
-        for(let k=0; k<l*2-1; k++){
-            for(let i=k*(l*2); i<(k+1)*(l*2)-1; i++){
-                this.polygons.push(new Polygon(i, i+1, l*2+i));
-                this.polygons.push(new Polygon(i+1, l*2+i, l*2+i+1));
+        for(let k=0; k<l*2; k++){
+            for(let i=k*(l*2)+k; i<(k+1)*(l*2)+k; i++){
+                this.polygons.push(new Polygon(i,i+1, i+l*2+1));
+                this.polygons.push(new Polygon(i+l*2+2,i+1, i+l*2+1));
             }
         }
-        for(let k=l*2; k<2*(l*2)-1; k++){
-            for(let i=k*(l*2); i<(k+1)*(l*2)-1; i++){
-                this.polygons.push(new Polygon(i, i+1, l*2+i));
-                this.polygons.push(new Polygon(i+1, l*2+i, l*2+i+1));
+
+        for(let k=1; k<l*2+1; k++){
+            for(let i=(l*2)*(l*2)+(k+1)*(l*2)+k; i<(l*2)*(l*2)+(k+2)*(l*2)+k; i++){
+                this.polygons.push(new Polygon(i,i+1, i+l*2+1));
+                this.polygons.push(new Polygon(i+l*2+2, i+1, i+l*2+1));
             }
         }
 

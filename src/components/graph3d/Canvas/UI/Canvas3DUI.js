@@ -1,17 +1,19 @@
 import { useRef, useEffect } from 'react';
 import Cube from '../../entities/figures/Cube'
 import Cylinder from '../../entities/figures/Cylinder'
-import Sphere from '../../entities/figures/Sphere'
 import Pyramid from '../../entities/figures/Pyramid'
 import Cone from '../../entities/figures/Cone'
 import DoublePlanes from '../../entities/figures/DoublePlanes'
 import CrossedPlanes from '../../entities/figures/CrossedPlanes'
+import Sphere from '../../entities/figures/Sphere'
 import Sphere2 from '../../entities/figures/Sphere2'
+import Ellipsoid from '../../entities/figures/Ellipsoid'
 import OneLineHyperboloid from '../../entities/figures/OneLineHyperboloid'
 import HyperbolicParaboloid from '../../entities/figures/HyperbolicParaboloid'
 import EllipticParaboloid from '../../entities/figures/EllipticParaboloid'
 import TwoLineEllipticParaboloid from '../../entities/figures/TwoLineEllipticParaboloid'
 import ParabolicCylinder from '../../entities/figures/ParabolicCylinder'
+import HyperbolicCylinder from '../../entities/figures/HyperbolicCylinder'
 
 function Canvas3DUI(props){
 	const {num, userFigs, callbacks} = props;
@@ -25,9 +27,11 @@ function Canvas3DUI(props){
 		{id: 'doublePlanes', title: 'стены'},
 		{id: 'crossedPlanes', title: 'стены друг в друге'},
 		{id: 'parabolicCylinder', title: 'кривая стена'},
+		{id: 'hyperbolicCylinder', title: 'две кривых стены'},
 		{id: 'cone', title: 'конус'},
 		{id: 'sphere', title: 'СФЕРА ХУЛИ'},
 		{id: 'sphere2', title: 'сфера'},
+		{id: 'ellipsoid', title: 'эллипсод'},
 		{id: 'oneLineHyperboloid', title: 'однополосный гиперболоид'},
 		{id: 'hyperbolicParaboloid', title: 'чипса'},
 		{id: 'ellipticParaboloid', title: 'шапка'},
@@ -52,13 +56,15 @@ function Canvas3DUI(props){
 			case 'cube': return new Cube();
 			case 'cylinder': return new Cylinder();
 			case 'sphere': return new Sphere();
+			case 'sphere2': return new Sphere2();
+			case 'ellipsoid': return new Ellipsoid();
 			case 'pyramid': return new Pyramid();
 			case 'cone': return new Cone();
 			case 'doublePlanes': return new DoublePlanes();
 			case 'crossedPlanes': return new CrossedPlanes();
-			case 'sphere2': return new Sphere2();
 			case 'oneLineHyperboloid': return new OneLineHyperboloid();
 			case 'hyperbolicParaboloid': return new HyperbolicParaboloid();
+			case 'hyperbolicCylinder': return new HyperbolicCylinder();
 			case 'ellipticParaboloid': return new EllipticParaboloid();
 			case 'twoLineEllipticParaboloid': return new TwoLineEllipticParaboloid();
 			case 'parabolicCylinder': return new ParabolicCylinder();
@@ -69,7 +75,7 @@ function Canvas3DUI(props){
 	function addFigure(){
 		userFigs.push({
             isActive: true,
-            subject: new ParabolicCylinder(),
+            subject: new Cube(),
             // center: new Point(0,0,0),
             color: '#c04d59',
             width: 2,

@@ -3,23 +3,13 @@ import Point from '../Point'
 // import Polygon from '../Polygon'
 
 
-export default class Sphere2{
+export default class Ellipsoid{
 	constructor(center = new Point(0,0,0)){
 		this.points = [];
 	    this.edges = [];
 	    this.polygons = [];
-	    let R = 6; // radius
+	    let R = 5; // radius of sphere
 	    const c = 0.8; // closeness between points [0,R]
-
-
-    	// let pointNum = this.points.length;
-    	// for(let y=0; y<R; y+=c){
-    	// 	for(let x=0; x<R; x+=c){
-    	// 		let z = this.getZ(x,y,R);
-    	// 		this.points[pointNum] = new Point(x,y,z);
-    	// 		pointNum++;
-    	// 	}
-    	// }
 
     	let pointNum = this.points.length;
     	let octant2 = [];
@@ -31,7 +21,7 @@ export default class Sphere2{
     	let octant8 = [];
 
     	for(let y=0; y<=R; y+=c){
-    		for(let x=0; x<=R; x+=c){
+    		for(let x=0; x<=R-R/2; x+=c){
     			let z = this.getZ(x,y,R);
     			this.points[pointNum] = new Point(x,y,z);
 
