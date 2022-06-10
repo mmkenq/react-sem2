@@ -6,7 +6,7 @@ import Graph2D from './components/graph2d/Graph2D'
 import Graph3D from './components/graph3d/Graph3D'
 import Outliner from './components/outliner/Outliner'
 import Point from './components/graph3d/entities/Point'
-
+import Light from './components/graph3d/entities/Light'
 
 import './App.css';
 
@@ -82,6 +82,7 @@ function App() {
 
 				        camera: new Point(0,0,60),
 				        display: new Point(0,0,30),
+				        light: new Light(25, 25, -25, 45000),
 				    }}
 				></Graph3D> :
 			activeButton === 'calculator' ?

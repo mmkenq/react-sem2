@@ -78,7 +78,10 @@ function Canvas3DUI(props){
             isActive: true,
             subject: new Cube(),
             // center: new Point(0,0,0),
-            color: '#c04d59',
+            pointColor: 'red',
+            edgeColor: '#c04d59',
+            polygonColor: '#3b3b3b',
+            // polygonColor: '#473f4d',
             width: 2,
             showPoints: true,
             showEdges: true,
@@ -93,7 +96,10 @@ function Canvas3DUI(props){
 
 	function changeFigure(num, subject, color, linewidth, name){
         userFigs[num].subject = subject || userFigs[num].subject;
-        userFigs[num].color = color;
+        // userFigs[num].color = color;
+        userFigs[num].pointColor = color.pointColor;
+        userFigs[num].edgeColor = color.edgeColor;
+        userFigs[num].polygonColor = color.polygonColor;
         userFigs[num].width = linewidth;
 		userFigs[num].name = name;
         callbacks.render();
@@ -222,18 +228,54 @@ function Canvas3DUI(props){
 			figInputs.appendChild(y);
 			figInputs.appendChild(z);
 
-			let color = document.createElement('input');
-			color.setAttribute('placeholder', 'color');
-			color.addEventListener('keyup', ()=>{
-				try{ changeFigure(figInputs.dataset.num, null, color.value, linewidth.value, name.value); }
+			let pointColor = document.createElement('input');
+			pointColor.setAttribute('placeholder', 'Point Color (default: red)');
+			pointColor.addEventListener('keyup', ()=>{
+				try{ changeFigure(figInputs.dataset.num, null, 
+								  { pointColor: pointColor.value,
+								  	edgeColor: edgeColor.value,
+								  	polygonColor: polygonColor.value,
+								  },
+								  linewidth.value, name.value); }
 				catch(e){console.log(e)};
 			});
-			figInputs.appendChild(color);
+			figInputs.appendChild(pointColor);
+
+			let edgeColor = document.createElement('input');
+			edgeColor.setAttribute('placeholder', 'Edge Color (default: #c04d59)');
+			edgeColor.addEventListener('keyup', ()=>{
+				try{ changeFigure(figInputs.dataset.num, null, 
+								  { pointColor: pointColor.value,
+								  	edgeColor: edgeColor.value,
+								  	polygonColor: polygonColor.value,
+								  },
+								  linewidth.value, name.value); }
+				catch(e){console.log(e)};
+			});
+			figInputs.appendChild(edgeColor);
+
+			let polygonColor = document.createElement('input');
+			polygonColor.setAttribute('placeholder', 'Poly Color (default: #473f4d)');
+			polygonColor.addEventListener('keyup', ()=>{
+				try{ changeFigure(figInputs.dataset.num, null, 
+								  { pointColor: pointColor.value,
+								  	edgeColor: edgeColor.value,
+								  	polygonColor: polygonColor.value,
+								  },
+								  linewidth.value, name.value); }
+				catch(e){console.log(e)};
+			});
+			figInputs.appendChild(polygonColor);
 
 			let linewidth = document.createElement('input');
 			linewidth.setAttribute('placeholder', 'linewidth');
 			linewidth.addEventListener('keyup', ()=>{
-				try{ changeFigure(figInputs.dataset.num, null, color.value, linewidth.value, name.value); }
+				try{ changeFigure(figInputs.dataset.num, null, 
+								  { pointColor: pointColor.value,
+								  	edgeColor: edgeColor.value,
+								  	polygonColor: polygonColor.value,
+								  },
+								  linewidth.value, name.value); }
 				catch(e){console.log(e)};
 			});
 			figInputs.appendChild(linewidth);			
@@ -241,7 +283,12 @@ function Canvas3DUI(props){
 			let name = document.createElement('input');
 			name.setAttribute('placeholder', 'name');
 			name.addEventListener('keyup', ()=>{
-				try{ changeFigure(figInputs.dataset.num, null, color.value, linewidth.value, name.value); }
+				try{ changeFigure(figInputs.dataset.num, null,
+									{ pointColor: pointColor.value,
+					  			  	  edgeColor: edgeColor.value,
+									  polygonColor: polygonColor.value,
+									},
+									linewidth.value, name.value); }
 				catch(e){console.log(e)};
 			})
 			figInputs.appendChild(name);	
@@ -282,7 +329,10 @@ function Canvas3DUI(props){
 						changeFigure(
 							figInputs.dataset.num,
 							newFigure(el.id),
-						 	color.value,
+						 	{ pointColor: pointColor.value,
+			  			  	  edgeColor: edgeColor.value,
+							  polygonColor: polygonColor.value,
+							},
 						 	linewidth.value,
 							name.value||el.id);
 					});

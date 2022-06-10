@@ -9,58 +9,41 @@ import PolygonR from '../Polygon4'
 
 
 export default class Cube{
-	constructor(center = new Point(0,0,0)){
-		this.points = [
-	    	new Point(center.x+-5,center.y+5,center.z+-5), // 0
-	    	new Point(center.x+5,center.y+5,center.z+-5),  // 1
-	    	new Point(center.x+-5,center.y+-5,center.z+-5),// 2
-	    	new Point(center.x+5,center.y+-5,center.z+-5), // 3
-	    	new Point(center.x+-5,center.y+5,center.z+5),  // 4
-	    	new Point(center.x+5,center.y+5,center.z+5),   // 5
-	    	new Point(center.x+-5,center.y+-5,center.z+5), // 6
-	    	new Point(center.x+5,center.y+-5,center.z+5),  // 7
-	    	// new Point(0,0,0) // center
+	constructor(x = 0, y = 0, z = 0, size = 10){
+    	this.points = [
+	        new Point(x - size/2, y - size/2, z - size/2), // 0
+	        new Point(x + size/2, y - size/2, z - size/2), // 1
+	        new Point(x + size/2, y + size/2, z - size/2), // 2
+	        new Point(x - size/2, y + size/2, z - size/2), // 3
+	        new Point(x - size/2, y - size/2, z + size/2), // 4
+	        new Point(x + size/2, y - size/2, z + size/2), // 5
+	        new Point(x + size/2, y + size/2, z + size/2), // 6
+	        new Point(x - size/2, y + size/2, z + size/2), // 7
+   		];
+		this.edges = [
+			new Edge(0, 1),
+			new Edge(0, 3),
+			new Edge(0, 4),
+			new Edge(2, 3),
+			new Edge(2, 6),
+			new Edge(2, 1),
+			new Edge(5, 1),
+			new Edge(5, 4),
+			new Edge(5, 6),
+			new Edge(7, 6),
+			new Edge(7, 4),
+			new Edge(7, 3),
+		];
+		this.polygons = [
+	        new Polygon([0, 1, 2, 3], "#473f4d"),
+        	new Polygon([0, 4, 5, 1], "#473f4d"),
+        	new Polygon([2, 3, 7, 6], "#473f4d"),
+        	new Polygon([1, 2, 6, 5], "#473f4d"),
+        	new Polygon([0, 4, 7, 3], "#473f4d"),
+        	new Polygon([4, 7, 6, 5], "#473f4d"),
     	];
 
-	    this.edges = [
-	        new Edge(4,6), // 0
-	        new Edge(6,7), // 1
-	        new Edge(5,7), // 2
-	        new Edge(4,5), // 3
-
-	        new Edge(0,4), // 4
-	        new Edge(5,1), // 5
-	        new Edge(3,7), // 6
-	        new Edge(2,6), // 7
-
-	        new Edge(0,1), // 8
-	        new Edge(1,3), // 9
-	        new Edge(2,3), // 10
-	        new Edge(0,2), // 11
-	    ];
-
-	    this.polygons = [
-	        new Polygon(0,1,2),
-	        new Polygon(1,2,3),
-	        new Polygon(1,3,7),
-	        new Polygon(1,5,7),
-	        new Polygon(4,5,6),
-	        new Polygon(5,6,7),
-	        new Polygon(2,6,7),
-	        new Polygon(2,3,7),
-	        new Polygon(0,2,6),
-	        new Polygon(0,4,6),
-	        new Polygon(0,4,5),
-	        new Polygon(0,1,5),
-	    ];
-
-	    this.polygonsR = [
-	    	new PolygonR(0,1,2,3),
-	    	new PolygonR(0,1,4,5),
-	    	new PolygonR(2,3,6,7),
-	    	new PolygonR(6,7,4,5),
-
-	    ];
+	    this.polygonsR = [];
 	}
 
 }

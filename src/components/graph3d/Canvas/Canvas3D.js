@@ -4,7 +4,7 @@ import Canvas3DUI from './UI/Canvas3DUI'
 
 function Canvas3D(props){
 
-	const {num, win, width, height, userFigs} = props;
+	const {num, win, width, height, userFigs, callbacks} = props;
 	let canvas = useRef(null);
 	let context = useRef(null);
 	let canMove = useRef(false);
@@ -15,7 +15,7 @@ function Canvas3D(props){
 		render(context.current);
 	})
 
-	function xs3dTo2d(point) { return point.x*(win.display.z-win.camera.z)/(point.z-win.camera.z);};
+	function xs3dTo2d(point) {return point.x*(win.display.z-win.camera.z)/(point.z-win.camera.z);};
 	function ys3dTo2d(point) { return point.y*(win.display.z-win.camera.z)/(point.z-win.camera.z);};
 	// xs3dTo2d(point) { return (point.x*(win.camera.z-win.display.z))/(win.camera.z-point.z);};
 	// ys3dTo2d(point) { return (point.y*(win.camera.z-win.display.z))/(win.camera.z-point.z);};
@@ -97,7 +97,7 @@ function Canvas3D(props){
 
 	function printPoints(fig, context){
 		let pointSize = 3;
-		context.fillStyle = '#ff2626';
+		context.fillStyle = fig.pointColor || 'red';
 		fig.subject.points.forEach((el)=>{
 			context.beginPath();
 			context.arc(xs2dToCanvas(xs3dTo2d(el)), ys2dToCanvas(ys3dTo2d(el)), pointSize, 0, Math.PI*2, true);
@@ -108,19 +108,43 @@ function Canvas3D(props){
 	function printEdges(fig, context){
 		fig.subject.edges.forEach((el)=>{
 			line(fig.subject.points[el.p1], fig.subject.points[el.p2],
-				  	  context, fig.color, fig.width);
+				  	  context, fig.edgeColor || '#c04d59', fig.width);
 		});
 	}
 
 	// NOTE: polygon is triangle here 
 	function printPolygon3(fig, context){
-		fig.subject.polygons.forEach((el)=>{
+	    callbacks.calcDistance(fig, win.camera, 'distance');
+        callbacks.calcDistance(fig, win.light, 'lumen');
+        callbacks.sortByArtist(fig);
+
+		fig.subject.polygons.forEach((polygon)=>{
 			context.beginPath();
-			context.fillStyle = '#473f4d';
-			context.globalAlpha = 0.7;
-			context.moveTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p1])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p1])));
-			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p2])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p2])));
-			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p3])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p3])));
+			// context.fillStyle = fig.polygonColor || '#473f4d';
+			context.globalAlpha = 0.85;
+
+
+            const lumen = callbacks.calcIllumination(polygon.lumen, win.light.lumen);
+            const points = polygon.points.map(point => {
+                return {
+                		x: xs3dTo2d(fig.subject.points[point]),
+    	                y: ys3dTo2d(fig.subject.points[point])
+						}
+            });
+
+            let {r, g, b} = polygon.color;
+            r = Math.round(r * lumen);
+            g = Math.round(g * lumen);
+            b = Math.round(b * lumen);
+            context.fillStyle = polygon.rgbToHex(r, g, b);
+
+
+	        context.moveTo(xs2dToCanvas(points[0].x), ys2dToCanvas(points[0].y));
+	        for (let i = 1; i < points.length; i++) {
+	            context.lineTo(xs2dToCanvas(points[i].x), ys2dToCanvas(points[i].y));
+	        }
+	        context.lineTo(xs2dToCanvas(points[0].x), ys2dToCanvas(points[0].y));
+        	context.closePath();
 			context.fill();
 		});
 	}
@@ -156,6 +180,9 @@ function Canvas3D(props){
 				if(el.showPolygons4) printPolygon4(el, context);
 			}
 		})
+
+
+
 	}
 
     // ----- callbacks for UI
@@ -248,6 +275,8 @@ function Canvas3D(props){
 
         render(context.current);
 	};
+
+
 
 	return(
 		<div data-num = {num} style={{marginBottom: '15px'}}>
