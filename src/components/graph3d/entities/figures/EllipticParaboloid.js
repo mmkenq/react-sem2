@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 
 export default class EllipticParaboloid{
@@ -8,6 +8,7 @@ export default class EllipticParaboloid{
         this.points = [];
         this.edges = [];
         this.polygons = [];
+        this.polygonsR = [];
 
         let p = 3; // p > 0
         let q = 3; // q > 0

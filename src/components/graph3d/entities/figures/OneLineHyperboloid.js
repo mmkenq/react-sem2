@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 
 export default class OneLineHyperBoloid{
@@ -8,6 +8,7 @@ export default class OneLineHyperBoloid{
 		this.points = [];
 	    this.edges = [];
 	    this.polygons = [];
+	    this.polygonsR = [];
 
 	    const rad = 57.295779513082;
 	    // радиус крайних окружностей

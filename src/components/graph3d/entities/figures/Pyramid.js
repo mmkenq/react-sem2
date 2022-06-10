@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 export default class Pyramid{
 	constructor(center = new Point(0,0,0)){
@@ -34,5 +34,7 @@ export default class Pyramid{
 	        new Polygon(1,2,3),
 	        new Polygon(1,3,4),
 	    ];
+
+	    this.polygonsR = [];
 	}
 }

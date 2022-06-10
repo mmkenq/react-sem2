@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 
 export default class CrossedPlanes{
@@ -39,5 +39,7 @@ export default class CrossedPlanes{
 	    	new Polygon(4,5,6),
 	    	new Polygon(4,6,7),
 	    ];
+
+	    this.polygonsR = [];
 	}
 }

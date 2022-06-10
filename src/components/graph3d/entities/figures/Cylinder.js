@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 
 export default class Cylinder{
@@ -8,6 +8,7 @@ export default class Cylinder{
 		this.points = [];
 	    this.edges = [];
 	    this.polygons = [];
+	    this.polygonsR = [];
 
 		const rad = 57.295779513082;
 		let R = 5; // радиус (высота по факту)
@@ -15,7 +16,7 @@ export default class Cylinder{
 		let delta = 30; // плотность точек
 		let x = 0;
 		let y = 0;
-		let z = 0;
+		// let z = 0;
 
 		for(let znext = -R; znext <= R; znext+=R*2){
 			for(let i = 0; i<360/delta; i++){

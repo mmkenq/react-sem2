@@ -1,6 +1,6 @@
 import Point from '../Point'
 // import Edge from '../Edge'
-// import Polygon from '../Polygon'
+// import Polygon from '../Polygon3'
 
 
 export default class Sphere2{
@@ -8,6 +8,7 @@ export default class Sphere2{
 		this.points = [];
 	    this.edges = [];
 	    this.polygons = [];
+        this.polygonsR = [];
 	    let R = 6; // radius
 	    const c = 0.8; // closeness between points [0,R]
 

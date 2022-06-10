@@ -23,19 +23,19 @@ function Canvas3DUI(props){
 	const objects = [
 		{id:'cube', title: 'куб'},
 		{id: 'pyramid',title: 'пирамида'},
-		{id: 'cylinder', title: 'очко'},
-		{id: 'doublePlanes', title: 'стены'},
-		{id: 'crossedPlanes', title: 'стены друг в друге'},
-		{id: 'parabolicCylinder', title: 'кривая стена'},
-		{id: 'hyperbolicCylinder', title: 'две кривых стены'},
+		{id: 'cylinder', title: 'циллиндр'},
+		{id: 'doublePlanes', title: 'параллельные плоскости'},
+		{id: 'crossedPlanes', title: 'пересекающиеся плоскости'},
+		{id: 'parabolicCylinder', title: 'полу-цилиндр'},
+		{id: 'hyperbolicCylinder', title: 'обратный цилиндр'},
 		{id: 'cone', title: 'конус'},
 		{id: 'sphere', title: 'СФЕРА ХУЛИ'},
 		{id: 'sphere2', title: 'сфера'},
 		{id: 'ellipsoid', title: 'эллипсод'},
 		{id: 'oneLineHyperboloid', title: 'однополосный гиперболоид'},
 		{id: 'hyperbolicParaboloid', title: 'чипса'},
-		{id: 'ellipticParaboloid', title: 'шапка'},
-		{id: 'twoLineEllipticParaboloid', title: 'две шапки'},
+		{id: 'ellipticParaboloid', title: 'параболоид эллиптический'},
+		{id: 'twoLineEllipticParaboloid', title: 'параболоид гиперболический'},
 	];
 
 	const scaleWays = [
@@ -48,7 +48,8 @@ function Canvas3DUI(props){
 	const showDetails = [
 		{id: 'showPoints', title: 'Points'},
 		{id: 'showEdges', title: 'Edges'},
-		{id: 'showPolygons', title: 'Polygons'}
+		{id: 'showPolygons3', title: 'Polygons3'},
+		{id: 'showPolygons4', title: 'Polygons4'}
 	];
 
 	function newFigure(figName){
@@ -81,7 +82,8 @@ function Canvas3DUI(props){
             width: 2,
             showPoints: true,
             showEdges: true,
-            showPolygons: true,
+            showPolygons3: true,
+            showPolygons4: false,
             name: 'cube',
         });
 
@@ -153,18 +155,31 @@ function Canvas3DUI(props){
     };
 
     function toggleDetail(num, detail){
-		switch(detail.id){
-            case 'showPoints':
-                userFigs[num].showPoints = !userFigs[num].showPoints;
-                break;
-            case 'showEdges':
-                userFigs[num].showEdges = !userFigs[num].showEdges;
-                break;
-            case 'showPolygons':
-                userFigs[num].showPolygons = !userFigs[num].showPolygons;
-                break;
-            default: return;
-        };
+        if(detail.id === 'showPoints') { userFigs[num].showPoints = !userFigs[num].showPoints }
+        else if(detail.id === 'showEdges') { userFigs[num].showEdges = !userFigs[num].showEdges }
+       	else if(detail.id === 'showPolygons3' || detail.id === 'showPolygons4'){
+        	let show3 = document.getElementById('showPolygons3');
+        	let show4 = document.getElementById('showPolygons4');
+        	if(detail.id === 'showPolygons3'){
+        		userFigs[num].showPolygons3 = !userFigs[num].showPolygons3;
+        		if(show3.checked){
+        			// show3.disabled = true;
+        			// show4.disabled = false;
+        			show4.checked = false;
+        			userFigs[num].showPolygons4 = false;
+        		}
+        	}
+        	else { // detail.id == 'showPolygons4'
+        		userFigs[num].showPolygons4 = !userFigs[num].showPolygons4;
+        		if(show4.checked){
+        			// show3.disabled = false;
+        			// show4.disabled = true;
+        			show3.checked = false;
+        			userFigs[num].showPolygons3 = false;
+        		}
+        	}
+       	}
+
         callbacks.render();
     };
 
@@ -245,7 +260,7 @@ function Canvas3DUI(props){
 				showDetail.setAttribute('id', detail.id);
 				showDetail.setAttribute('type', 'checkbox');
 				// TODO: be able to get the state of the detail in userFigs
-				showDetail.checked = true;
+				showDetail.checked = userFigs[figInputs.dataset.num][detail.id];
 				let label = document.createElement('label');
 				label.setAttribute('for', detail.id);
 				label.innerHTML = detail.title;

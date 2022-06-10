@@ -113,12 +113,30 @@ function Canvas3D(props){
 	}
 
 	// NOTE: polygon is triangle here 
-	function printPolygon(fig, context){
+	function printPolygon3(fig, context){
 		fig.subject.polygons.forEach((el)=>{
 			context.beginPath();
 			context.fillStyle = '#473f4d';
 			context.globalAlpha = 0.7;
 			context.moveTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p1])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p1])));
+			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p2])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p2])));
+			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p3])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p3])));
+			context.fill();
+		});
+	}
+
+	// NOTE: polygon is rectangle here 
+	function printPolygon4(fig, context){
+		fig.subject.polygonsR.forEach((el)=>{
+			context.beginPath();
+			context.fillStyle = '#473f4d';
+			context.globalAlpha = 0.7;
+			context.moveTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p1])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p1])));
+			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p2])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p2])));
+			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p3])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p3])));
+			context.fill();
+
+			context.moveTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p4])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p4])));
 			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p2])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p2])));
 			context.lineTo(xs2dToCanvas(xs3dTo2d(fig.subject.points[el.p3])), ys2dToCanvas(ys3dTo2d(fig.subject.points[el.p3])));
 			context.fill();
@@ -134,7 +152,8 @@ function Canvas3D(props){
 			if(el.isActive){
 				if(el.showPoints) printPoints(el, context);
 				if(el.showEdges) printEdges(el, context);
-				if(el.showPolygons) printPolygon(el, context);
+				if(el.showPolygons3) printPolygon3(el, context);
+				if(el.showPolygons4) printPolygon4(el, context);
 			}
 		})
 	}

@@ -1,6 +1,6 @@
 
 import Canvas3D from "./Canvas/Canvas3D";
-// import Cube from "./entities/figures/Cube"
+// import Cube from "./entities/figures3/Cube"
 
 function Graph3D(props){
     const {win} = props;

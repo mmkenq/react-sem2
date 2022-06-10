@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 
 export default class Cone{
@@ -8,6 +8,7 @@ export default class Cone{
 		this.points = [];
 	    this.edges = [];
 	    this.polygons = [];
+	    this.polygonsR = [];
 
 	    const rad = 57.295779513082;
 	    // радиус крайних окружностей
@@ -18,7 +19,7 @@ export default class Cone{
 
 		let x = 0;
 		let y = 0;
-		let z = 0;
+		// let z = 0;
 
 		let r = R; // changing radius
 		for(let znext = -r; znext <= R; znext++){

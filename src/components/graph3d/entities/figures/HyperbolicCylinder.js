@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 
 export default class HyperbolicCylinder{
@@ -8,6 +8,7 @@ export default class HyperbolicCylinder{
         this.points = [];
         this.edges = [];
         this.polygons = [];
+        this.polygonsR = [];
 
         let p = 2; // p > 0
         let a = 3;

@@ -1,6 +1,11 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+
+// polygon - triangle
+import Polygon from '../Polygon3'
+
+// polygon - rectangle
+import PolygonR from '../Polygon4'
 
 
 export default class Cube{
@@ -47,6 +52,14 @@ export default class Cube{
 	        new Polygon(0,4,6),
 	        new Polygon(0,4,5),
 	        new Polygon(0,1,5),
+	    ];
+
+	    this.polygonsR = [
+	    	new PolygonR(0,1,2,3),
+	    	new PolygonR(0,1,4,5),
+	    	new PolygonR(2,3,6,7),
+	    	new PolygonR(6,7,4,5),
+
 	    ];
 	}
 

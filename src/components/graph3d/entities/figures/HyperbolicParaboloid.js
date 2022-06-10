@@ -1,6 +1,6 @@
 import Point from '../Point'
 import Edge from '../Edge'
-import Polygon from '../Polygon'
+import Polygon from '../Polygon3'
 
 
 export default class HyperbolicParaboloid{
@@ -8,6 +8,7 @@ export default class HyperbolicParaboloid{
         this.points = [];
         this.edges = [];
         this.polygons = [];
+        this.polygonsR = [];
 
         let a = 2;
         let b = 2;
